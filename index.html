@@ -1,264 +1,183 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SGMP Dashboard</title>
 
-<title>SGMP Kontrol Paneli</title>
+  <style>
+    body{
+      background:#0a0a0a;
+      color:#f5f5f5;
+      font-family:Arial,sans-serif;
+      padding:20px;
+    }
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+    h1{
+      font-size:48px;
+      margin-bottom:10px;
+    }
 
-body{
-  background:#050505;
-  color:#f2f2f2;
-  font-family:Arial,Helvetica,sans-serif;
-  padding:22px;
-}
+    .subtitle{
+      color:#999;
+      margin-bottom:30px;
+    }
 
-h1{
-  font-size:64px;
-  font-weight:900;
-  margin-bottom:10px;
-  letter-spacing:-2px;
-}
+    .status{
+      margin-bottom:20px;
+      color:#bbb;
+    }
 
-.subtitle{
-  color:#8e8e8e;
-  font-size:24px;
-  margin-bottom:40px;
-}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:15px;
+      margin-bottom:40px;
+    }
 
-button{
-  background:#f2f2f2;
-  color:#000;
-  border:none;
-  padding:16px 26px;
-  border-radius:16px;
-  font-size:20px;
-  font-weight:700;
-  cursor:pointer;
-  margin-bottom:30px;
-}
+    .card{
+      background:#141414;
+      border:1px solid #2a2a2a;
+      border-radius:16px;
+      padding:18px;
+    }
 
-.status{
-  margin-bottom:30px;
-  color:#9f9f9f;
-  font-size:18px;
-}
+    .label{
+      color:#888;
+      font-size:12px;
+      text-transform:uppercase;
+    }
 
-.error{
-  background:#2a1010;
-  border:1px solid #703030;
-  color:#ff8c8c;
-  padding:18px;
-  border-radius:16px;
-  margin-bottom:30px;
-  white-space:pre-wrap;
-}
+    .metric{
+      font-size:38px;
+      font-weight:bold;
+      margin-top:8px;
+    }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:16px;
-  margin-bottom:50px;
-}
+    .project{
+      background:#141414;
+      border:1px solid #2a2a2a;
+      border-radius:16px;
+      padding:18px;
+      margin-bottom:15px;
+    }
 
-.card{
-  background:#111;
-  border:1px solid #242424;
-  border-radius:20px;
-  padding:20px;
-}
+    .title{
+      font-size:24px;
+      font-weight:bold;
+    }
 
-.metric{
-  font-size:42px;
-  font-weight:900;
-  margin-top:8px;
-}
+    .meta{
+      color:#888;
+      margin-top:6px;
+      margin-bottom:12px;
+    }
 
-.label{
-  color:#8b8b8b;
-  font-size:13px;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-}
+    .badge{
+      display:inline-block;
+      background:#222;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:12px;
+      margin-bottom:14px;
+    }
 
-h2{
-  font-size:48px;
-  margin:50px 0 22px;
-}
+    .row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
+      gap:10px;
+    }
 
-.project{
-  background:#111;
-  border:1px solid #242424;
-  border-radius:22px;
-  padding:22px;
-  margin-bottom:18px;
-}
+    .mini{
+      background:#1c1c1c;
+      border-radius:12px;
+      padding:10px;
+    }
 
-.project-title{
-  font-size:30px;
-  font-weight:800;
-}
+    .mini strong{
+      font-size:24px;
+      display:block;
+    }
 
-.project-meta{
-  color:#919191;
-  margin-top:8px;
-}
+    .mini span{
+      color:#888;
+      font-size:12px;
+    }
 
-.badge{
-  display:inline-block;
-  margin-top:16px;
-  background:#1f1f1f;
-  border:1px solid #333;
-  border-radius:999px;
-  padding:8px 14px;
-  font-size:13px;
-}
+    textarea{
+      width:100%;
+      min-height:220px;
+      margin-top:14px;
+      background:#0b0b0b;
+      color:#eee;
+      border:1px solid #333;
+      border-radius:12px;
+      padding:14px;
+    }
 
-.row{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
-  gap:12px;
-  margin-top:22px;
-}
+    .qc{
+      background:#141414;
+      border:1px solid #2a2a2a;
+      border-radius:16px;
+      padding:18px;
+      margin-bottom:15px;
+    }
 
-.mini{
-  background:#181818;
-  border-radius:14px;
-  padding:14px;
-}
+    .score{
+      font-size:54px;
+      font-weight:bold;
+      margin:15px 0;
+    }
 
-.mini strong{
-  display:block;
-  font-size:28px;
-}
+    .good{
+      color:#4ddb8d;
+    }
 
-.mini span{
-  display:block;
-  margin-top:6px;
-  color:#888;
-  font-size:12px;
-}
+    .bad{
+      color:#ff7b7b;
+    }
 
-.prompt{
-  background:#111;
-  border:1px solid #242424;
-  border-radius:22px;
-  padding:22px;
-  margin-bottom:18px;
-}
-
-textarea{
-  width:100%;
-  min-height:260px;
-  background:#090909;
-  color:#e8e8e8;
-  border:1px solid #2b2b2b;
-  border-radius:16px;
-  padding:16px;
-  margin-top:16px;
-  line-height:1.5;
-  font-size:14px;
-}
-
-.small{
-  margin-top:14px;
-  background:#171717;
-  border-radius:14px;
-  padding:14px;
-  line-height:1.5;
-  color:#cfcfcf;
-}
-
-.qc-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:16px;
-}
-
-.qc{
-  background:#111;
-  border:1px solid #242424;
-  border-radius:22px;
-  padding:22px;
-}
-
-.score{
-  font-size:64px;
-  font-weight:900;
-  margin:18px 0;
-}
-
-.good{
-  color:#4ddb8d;
-}
-
-.bad{
-  color:#ff7d7d;
-}
-
-@media(max-width:768px){
-
-  h1{
-    font-size:42px;
-  }
-
-  h2{
-    font-size:34px;
-  }
-
-  .subtitle{
-    font-size:18px;
-  }
-
-}
-</style>
+    h2{
+      margin:40px 0 20px;
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>SGMP Kontrol Paneli</h1>
+<h1>SGMP Dashboard</h1>
+
 <div class="subtitle">
-Yapay zekâya özgü müzik işletim sistemi çalışma zamanı
+AI-native music operating system
 </div>
 
-<button onclick="loadDashboard()">
-Yenile
-</button>
-
 <div id="status" class="status">
-Veri yükleniyor...
+Loading...
 </div>
 
 <div id="summary" class="grid"></div>
 
-<h2>Projeler</h2>
+<h2>Projects</h2>
 <div id="projects"></div>
 
-<h2>İstem Çıktıları</h2>
+<h2>Prompt Outputs</h2>
 <div id="prompts"></div>
 
-<h2>Kalite Kontrol Sonuçları</h2>
-<div id="qc" class="qc-grid"></div>
+<h2>QC Results</h2>
+<div id="qc"></div>
 
 <script>
 
 const FUNCTION_URL =
 "https://udrqfnkkhtektstlbfva.supabase.co/functions/v1/swift-api";
 
-const statusEl = document.getElementById("status");
-
 async function loadDashboard(){
 
-  statusEl.innerHTML = "Veri yükleniyor...";
+  const status = document.getElementById("status");
 
   try{
+
+    status.innerHTML = "Loading dashboard...";
 
     const response = await fetch(
       FUNCTION_URL,
@@ -270,41 +189,25 @@ async function loadDashboard(){
       }
     );
 
-    if(!response.ok){
-
-      const errText = await response.text();
-
-      throw new Error(
-        `HTTP ${response.status}\n${errText}`
-      );
-
-    }
-
     const result = await response.json();
 
     if(!result.ok){
-
-      throw new Error(
-        result.error || "Bilinmeyen hata"
-      );
-
+      throw new Error(result.error || "Unknown error");
     }
 
     const data = result.data;
 
-    renderSummary(data.summary || {});
-    renderProjects(data.projects || []);
-    renderPrompts(data.prompts || []);
-    renderQC(data.qc || []);
+    renderSummary(data.summary);
+    renderProjects(data.projects);
+    renderPrompts(data.prompts);
+    renderQC(data.qc);
 
-    statusEl.innerHTML = "Dashboard güncellendi.";
+    status.innerHTML = "Dashboard loaded.";
 
   }catch(err){
 
-    statusEl.innerHTML =
-    `<div class="error">
-HATA: ${err.message}
-</div>`;
+    status.innerHTML =
+      "ERROR: " + err.message;
 
   }
 
@@ -313,180 +216,126 @@ HATA: ${err.message}
 function renderSummary(summary){
 
   const metrics = [
-
-    ["Toplam Proje", summary.total_projects || 0],
-    ["Ready", summary.ready_requests || 0],
-    ["Completed", summary.completed_requests || 0],
-    ["Prompt", summary.prompt_outputs || 0],
-    ["QC", summary.qc_outputs || 0],
-    ["Failed", summary.failed_requests || 0]
-
+    ["Projects", summary.total_projects],
+    ["Ready", summary.ready_requests],
+    ["Completed", summary.completed_requests],
+    ["Prompt", summary.prompt_outputs],
+    ["QC", summary.qc_outputs],
+    ["Failed", summary.failed_requests]
   ];
 
   document.getElementById("summary").innerHTML =
-  metrics.map(m => `
-
-    <div class="card">
-
-      <div class="label">
-        ${m[0]}
+    metrics.map(m => `
+      <div class="card">
+        <div class="label">${m[0]}</div>
+        <div class="metric">${m[1]}</div>
       </div>
-
-      <div class="metric">
-        ${m[1]}
-      </div>
-
-    </div>
-
-  `).join("");
+    `).join("");
 
 }
 
 function renderProjects(projects){
 
   document.getElementById("projects").innerHTML =
-  projects.map(p => `
+    projects.map(p => `
+      <div class="project">
 
-    <div class="project">
-
-      <div class="project-title">
-        ${escapeHtml(p.working_title || "-")}
-      </div>
-
-      <div class="project-meta">
-        ${escapeHtml(p.project_code || "-")}
-        ·
-        ${escapeHtml(p.character_name || "-")}
-      </div>
-
-      <div class="badge">
-        ${escapeHtml(p.pipeline_stage || "-")}
-      </div>
-
-      <div class="row">
-
-        <div class="mini">
-          <strong>${p.completed_requests || 0}</strong>
-          <span>Completed</span>
+        <div class="title">
+          ${p.working_title}
         </div>
 
-        <div class="mini">
-          <strong>${p.ready_requests || 0}</strong>
-          <span>Ready</span>
+        <div class="meta">
+          ${p.project_code} · ${p.character_name}
         </div>
 
-        <div class="mini">
-          <strong>${p.execution_job_count || 0}</strong>
-          <span>Jobs</span>
+        <div class="badge">
+          ${p.pipeline_stage}
         </div>
 
-        <div class="mini">
-          <strong>${p.queue_count || 0}</strong>
-          <span>Queue</span>
+        <div class="row">
+
+          <div class="mini">
+            <strong>${p.completed_requests}</strong>
+            <span>Completed</span>
+          </div>
+
+          <div class="mini">
+            <strong>${p.ready_requests}</strong>
+            <span>Ready</span>
+          </div>
+
+          <div class="mini">
+            <strong>${p.execution_job_count}</strong>
+            <span>Jobs</span>
+          </div>
+
+          <div class="mini">
+            <strong>${p.queue_count}</strong>
+            <span>Queue</span>
+          </div>
+
         </div>
 
       </div>
-
-    </div>
-
-  `).join("");
+    `).join("");
 
 }
 
 function renderPrompts(prompts){
 
   document.getElementById("prompts").innerHTML =
-  prompts
-  .filter(p => p.master_prompt)
-  .map(p => `
+    prompts
+      .filter(p => p.master_prompt)
+      .map(p => `
+        <div class="project">
 
-    <div class="prompt">
+          <div class="title">
+            ${p.working_title}
+          </div>
 
-      <div class="project-title">
-        ${escapeHtml(p.working_title || "-")}
-      </div>
+          <div class="meta">
+            ${p.project_code}
+          </div>
 
-      <div class="project-meta">
-        ${escapeHtml(p.project_code || "-")}
-      </div>
+          <textarea readonly>${p.master_prompt}</textarea>
 
-      <textarea readonly>${escapeHtml(
-        p.master_prompt || ""
-      )}</textarea>
-
-      <div class="small">
-        <b>Style Prompt:</b><br><br>
-        ${escapeHtml(p.style_prompt_200 || "-")}
-      </div>
-
-      <div class="small">
-        <b>Vocal Lock:</b><br><br>
-        ${escapeHtml(p.vocal_lock || "-")}
-      </div>
-
-      <div class="small">
-        <b>Anti Loop Strategy:</b><br><br>
-        ${escapeHtml(p.anti_loop_strategy || "-")}
-      </div>
-
-    </div>
-
-  `).join("");
+        </div>
+      `).join("");
 
 }
 
 function renderQC(qcItems){
 
   document.getElementById("qc").innerHTML =
-  qcItems.map(q => `
+    qcItems.map(q => `
+      <div class="qc">
 
-    <div class="qc">
+        <div class="title">
+          ${q.working_title}
+        </div>
 
-      <div class="project-title">
-        ${escapeHtml(q.working_title || "-")}
+        <div class="meta">
+          ${q.project_code}
+        </div>
+
+        <div class="score ${q.release_ready ? "good" : "bad"}">
+          ${q.replay_value_score}
+        </div>
+
+        <div>
+          Groove: ${q.groove_integrity_score}
+        </div>
+
+        <div>
+          Cinematic: ${q.cinematic_realism_score}
+        </div>
+
+        <div>
+          Character: ${q.character_consistency_score}
+        </div>
+
       </div>
-
-      <div class="project-meta">
-        ${escapeHtml(q.project_code || "-")}
-      </div>
-
-      <div class="score ${q.release_ready ? "good" : "bad"}">
-        ${q.replay_value_score || 0}
-      </div>
-
-      <div class="small">
-        Groove:
-        ${q.groove_integrity_score || 0}
-      </div>
-
-      <div class="small">
-        Cinematic:
-        ${q.cinematic_realism_score || 0}
-      </div>
-
-      <div class="small">
-        Character:
-        ${q.character_consistency_score || 0}
-      </div>
-
-      <div class="small">
-        ${escapeHtml(q.final_decision || "-")}
-      </div>
-
-    </div>
-
-  `).join("");
-
-}
-
-function escapeHtml(value){
-
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+    `).join("");
 
 }
 
